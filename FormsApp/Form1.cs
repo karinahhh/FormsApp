@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace FormsApp
 {
@@ -19,6 +20,9 @@ namespace FormsApp
 		CheckBox box_lbl, box_btn;
 		RadioButton r1, r2;
 		TextBox txt_box;
+		PictureBox pic_box;
+		TabControl tabControl;
+		TabPage page1, page2, page3;
 		public Form1()
 		{
 			this.Height = 500;
@@ -32,7 +36,7 @@ namespace FormsApp
 			//button
 			btn = new Button();
 			btn.Text = "Vajuta siia";
-			btn.Location = new Point(200, 200);
+			btn.Location = new Point(200, 100);
 			btn.Width = 120;
 			btn.Height = 50;
 			btn.Click += Btn_Click;//TAB
@@ -42,11 +46,14 @@ namespace FormsApp
 			lbl = new Label();
 			lbl.Text = "Tarkvaraarendajad";
 			lbl.Size = new Size(120, 30);
-			lbl.Location = new Point(200, 300);
+			lbl.Location = new Point(130, 200);
 			//label end
 			tn.Nodes.Add(new TreeNode("CheckBox-Märkeruut"));
 			tn.Nodes.Add(new TreeNode("RadioButton-Radionupp"));
 			tn.Nodes.Add(new TreeNode("TextBox-Tekstkast"));
+			tn.Nodes.Add(new TreeNode("PictureBox-Pildikast"));
+			tn.Nodes.Add(new TreeNode("TabControl"));
+			tn.Nodes.Add(new TreeNode("MessageBox"));
 			tree.Nodes.Add(tn);
 
 			this.Controls.Add(tree);
@@ -68,13 +75,13 @@ namespace FormsApp
 			{
 				box_btn = new CheckBox();
 				box_btn.Text = "Näita nupp";
-				box_btn.Location = new Point(200,50);
+				box_btn.Location = new Point(130,20);
 				this.Controls.Add(box_btn);
 				box_btn.CheckedChanged += Box_btn_CheckedChanged;
 
 				box_lbl = new CheckBox();
 				box_lbl.Text = "Näita silt";
-				box_lbl.Location = new Point(200, 70);
+				box_lbl.Location = new Point(130, 50);
 				this.Controls.Add(box_lbl);
 				box_lbl.CheckedChanged += Box_lbl_CheckedChanged;
 
@@ -99,18 +106,67 @@ namespace FormsApp
 				string text;
 				try
 				{
-					File.ReadAllText("text.txt");
+					text=File.ReadAllText("text.txt");
 				}
-				catch (FileNotFoundException exception)
+				catch (FileNotFoundException)
 				{
 					text = "Tekst puudub";
 				}
 				txt_box = new TextBox();
 				txt_box.Multiline = true;
-				txt_box.Text = "Fail";
-				txt_box.Location = new Point(300, 300);
+				txt_box.Text = text;
+				txt_box.Location = new Point(130, 300);
 				txt_box.Width = 200;
 				txt_box.Height = 200;
+				this.Controls.Add(txt_box);
+			}
+			else if (e.Node.Text== "PictureBox-Pildikast")
+			{
+				pic_box = new PictureBox();
+				pic_box.Image = new Bitmap("picture.jpg");
+				pic_box.Location = new Point(340, 300);
+				pic_box.Size = new Size(100, 100);
+				pic_box.SizeMode = PictureBoxSizeMode.Zoom;
+				pic_box.BorderStyle = BorderStyle.FixedSingle;
+				this.Controls.Add(pic_box);
+			}
+			else if (e.Node.Text== "TabControl")
+			{
+				tabControl = new TabControl();
+				tabControl.Location = new Point(340, 200);
+				tabControl.Size = new Size(200, 100);
+				page1 = new TabPage("Esimene");
+				page2 = new TabPage("Teine");
+				page3 = new TabPage("Kolmas");
+				tabControl.Controls.Add(page1);
+				tabControl.Controls.Add(page2);
+				tabControl.Controls.Add(page3);
+				tabControl.SelectedIndex = 2;
+				Label lbl2 = new Label() { Text="see on esimene leht" };
+				Label lbl3 = new Label() { Text = "see on teine leht" };
+				Label lbl4 = new Label() { Text = "see on kolmas leht" };
+				page1.Controls.Add(lbl2);
+				page2.Controls.Add(lbl3);
+				page3.Controls.Add(lbl4);
+				page1.BackColor = Color.Red;
+				page2.BackColor = Color.Blue;
+				page3.BackColor = Color.Green;
+				this.Controls.Add(tabControl);
+				
+			}
+			else if (e.Node.Text== "MessageBox")
+			{
+				MessageBox.Show("MessageBox", "Kõige lihtsam aken");
+				var answer = MessageBox.Show("Tahad InputBoxi näha?", "Aken koos nupudega", MessageBoxButtons.YesNo);
+				if (answer==DialogResult.Yes)
+				{
+					string text = Interaction.InputBox("Siseta siia mingi tekst", "InputBox", "Mingi tekst");//если не работает, то в references найти есть ли visualBasic
+					if (MessageBox.Show("kas sa tahad tekst saada Tekskastisse?","teksti salvetamine",MessageBoxButtons.OKCancel)==DialogResult.OK)
+					{
+						lbl.Text = text;
+						Controls.Add(lbl);
+					}
+				}
 			}
 		}
 
@@ -118,11 +174,11 @@ namespace FormsApp
 		{
 			if (r1.Checked)
 			{
-				btn.Location = new Point(150,200);
+				btn.Location = new Point(130,100);
 			}
 			else if (r2.Checked)
 			{
-				btn.Location=new Point(400,200);
+				btn.Location=new Point(400,100);
 			}
 		}
 
