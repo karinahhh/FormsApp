@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,6 +25,7 @@ namespace FormsApp
 		PictureBox pic_box;
 		TabControl tabControl;
 		TabPage page1, page2, page3;
+		ListBox l_box;
 		public Form1()
 		{
 			this.Height = 500;
@@ -54,6 +57,9 @@ namespace FormsApp
 			tn.Nodes.Add(new TreeNode("PictureBox-Pildikast"));
 			tn.Nodes.Add(new TreeNode("TabControl"));
 			tn.Nodes.Add(new TreeNode("MessageBox"));
+			tn.Nodes.Add(new TreeNode("ListBox"));
+			tn.Nodes.Add(new TreeNode("DataGridView"));
+			tn.Nodes.Add(new TreeNode("Menu"));
 			tree.Nodes.Add(tn);
 
 			this.Controls.Add(tree);
@@ -168,6 +174,49 @@ namespace FormsApp
 					}
 				}
 			}
+			else if (e.Node.Text=="ListBox")
+			{
+				string[] colors_nim =new string[] {"Kollane","Punane", "Roheline","Sinine"};//массив
+				l_box=new ListBox();
+
+				foreach(var item in colors_nim){
+					l_box.Items.Add(item);
+				}
+				l_box.Location=new Point(280,240);
+				l_box.Width=colors_nim[2].Length*6;
+				l_box.Height=colors_nim.Length*15;
+				this.Controls.Add(l_box);
+			}
+			else if (e.Node.Text=="Menu")
+			{
+				MainMenu menu=new MainMenu();
+				MenuItem menuitem1 = new MenuItem("File");	
+				menuitem1.MenuItems.Add("Exit", new EventHandler(menuitem1_Exit));
+				menu.MenuItems.Add(menuitem1);
+				this.Menu=menu;
+			}
+			/*
+			else if (e.Node.Text=="DataGridView")
+			{
+				DataSet dataSet=new DataSet("Näide");
+				dataSet.ReadXml("../../Files/ex.xml");
+				DataGridView dgv = new DataGridView();
+				dgv.Location=new Point(300,200);
+				dgv.Width=250;
+				dgv.Height=250;
+				dgv.AutoGenerateColumns=true;
+				dgv.DataMember="food";
+				dgv.DataSource=dataSet;
+				Controls.Add(dgv);
+
+			}*/
+			
+
+		}
+
+		private void menuitem1_Exit(object sender, EventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void RadioButton_Changed(object sender, EventArgs e)
