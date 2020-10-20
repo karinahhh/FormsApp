@@ -195,11 +195,11 @@ namespace FormsApp
 				menu.MenuItems.Add(menuitem1);
 				this.Menu=menu;
 			}
-			/*
+			
 			else if (e.Node.Text=="DataGridView")
 			{
 				DataSet dataSet=new DataSet("Näide");
-				dataSet.ReadXml("../../Files/ex.xml");
+				dataSet.ReadXml("C:/Users/opilane/source/repos/halzova/FormsApp/FormsApp/XML.xml");
 				DataGridView dgv = new DataGridView();
 				dgv.Location=new Point(300,200);
 				dgv.Width=250;
@@ -209,7 +209,7 @@ namespace FormsApp
 				dgv.DataSource=dataSet;
 				Controls.Add(dgv);
 
-			}*/
+			}
 			
 
 		}
